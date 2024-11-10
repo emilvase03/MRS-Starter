@@ -7,6 +7,9 @@ public class MovieDAO_File implements IMovieDataAccess {
 
     private static final String MOVIES_FILE = "data/movie_titles.txt";
 
+    //The @Override annotation is not required, but is recommended for readability
+    // and to force the compiler to check and generate error msg. if needed etc.
+    //@Override
     public List<Movie> getAllMovies() throws IOException {
         return null;
     }
