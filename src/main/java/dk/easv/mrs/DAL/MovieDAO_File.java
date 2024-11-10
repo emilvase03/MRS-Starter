@@ -3,7 +3,7 @@ import dk.easv.mrs.BE.Movie;
 import java.io.*;
 import java.util.List;
 
-public class MovieDAO implements IMovieDataAccess {
+public class MovieDAO_File implements IMovieDataAccess {
 
     private static final String MOVIES_FILE = "data/movie_titles.txt";
 
