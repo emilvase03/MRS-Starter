@@ -1,9 +1,13 @@
 package dk.easv.mrs.BLL;
+
+// Java imports
+import java.util.List;
+
+// Project imports
 import dk.easv.mrs.BE.Movie;
 import dk.easv.mrs.BLL.util.MovieSearcher;
 import dk.easv.mrs.DAL.IMovieDataAccess;
 import dk.easv.mrs.DAL.MovieDAO_File;
-import java.util.List;
 
 public class MovieManager {
 
@@ -22,5 +26,9 @@ public class MovieManager {
         List<Movie> allMovies = getAllMovies();
         List<Movie> searchResult = movieSearcher.search(allMovies, query);
         return searchResult;
+    }
+
+    public Movie createMovie(String title, int year) throws Exception {
+        return movieDAO.createMovie(title, year);
     }
 }

@@ -1,17 +1,26 @@
 package dk.easv.mrs.GUI.Controller;
 
-import dk.easv.mrs.BE.Movie;
-import dk.easv.mrs.GUI.Model.MovieModel;
+// Java imports
 import javafx.beans.binding.Bindings;
-import javafx.collections.ListChangeListener;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+// Project imports
+import dk.easv.mrs.BE.Movie;
+import dk.easv.mrs.GUI.Model.MovieModel;
 
 public class MovieViewController implements Initializable {
 
@@ -22,6 +31,10 @@ public class MovieViewController implements Initializable {
 
     @FXML
     private Label lblResults;
+    @FXML
+    private TextField txtMovieTitle;
+    @FXML
+    private TextField txtMovieYear;
 
     public MovieViewController()  {
 
@@ -59,5 +72,24 @@ public class MovieViewController implements Initializable {
         alert.setTitle("Something went wrong");
         alert.setHeaderText(t.getMessage());
         alert.showAndWait();
+    }
+
+    @FXML
+    private void onBtnCreateMovieAction(ActionEvent actionEvent) {
+        try {
+            // Load the FXML for the popup window
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/CreateMovieView.fxml"));
+            Parent root = loader.load();
+
+            // Create a new Stage (popup window)
+            Stage stage = new Stage();
+            stage.setTitle("Create Movie");
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL); // blocks parent window until closed
+            stage.setResizable(false);
+            stage.showAndWait(); // Waits for the popup to close before continuing
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
