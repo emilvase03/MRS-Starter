@@ -2,8 +2,12 @@ package dk.easv.mrs.GUI.Controller;
 
 import dk.easv.mrs.BE.Movie;
 import dk.easv.mrs.GUI.Model.MovieModel;
+import javafx.beans.binding.Bindings;
+import javafx.collections.ListChangeListener;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import java.net.URL;
@@ -15,6 +19,9 @@ public class MovieViewController implements Initializable {
     public TextField txtMovieSearch;
     public ListView<Movie> lstMovies;
     private MovieModel movieModel;
+
+    @FXML
+    private Label lblResults;
 
     public MovieViewController()  {
 
@@ -32,6 +39,10 @@ public class MovieViewController implements Initializable {
     {
         lstMovies.setItems(movieModel.getObservableMovies());
 
+        lblResults.textProperty().bind(
+                Bindings.concat("Total Movies: ", Bindings.size(movieModel.getObservableMovies()))
+        );
+
         txtMovieSearch.textProperty().addListener((observableValue, oldValue, newValue) -> {
             try {
                 movieModel.searchMovie(newValue);
@@ -40,7 +51,6 @@ public class MovieViewController implements Initializable {
                 e.printStackTrace();
             }
         });
-
     }
 
     private void displayError(Throwable t)
