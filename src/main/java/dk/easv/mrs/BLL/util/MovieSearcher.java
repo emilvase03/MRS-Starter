@@ -10,13 +10,17 @@ public class MovieSearcher {
         List<Movie> searchResult = new ArrayList<>();
 
         for (Movie movie : searchBase) {
-            if(compareToMovieTitle(query, movie) || compareToMovieYear(query, movie))
+            if(compareToMovieTitle(query, movie) || compareToMovieYear(query, movie) || compareToMovieId(query, movie))
             {
                 searchResult.add(movie);
             }
         }
 
         return searchResult;
+    }
+
+    private boolean compareToMovieId(String query, Movie movie) {
+        return Integer.toString(movie.getId()).contains(query);
     }
 
     private boolean compareToMovieYear(String query, Movie movie) {
