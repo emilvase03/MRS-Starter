@@ -1,4 +1,6 @@
 package dk.easv.mrs.GUI;
+
+// Java imports
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,7 +13,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("/views/MovieView.fxml"));
         primaryStage.setTitle("MRS");
-        primaryStage.setScene(new Scene(root, 600, 475));
+        primaryStage.setScene(new Scene(root, 600, 450));
         primaryStage.show();
     }
 
