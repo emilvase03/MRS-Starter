@@ -71,7 +71,6 @@ public class MovieDAO_File implements IMovieDataAccess {
         }
     }
 
-
     @Override
     public void deleteMovie(Movie movie) throws Exception {
         List<Movie> movies = getAllMovies();

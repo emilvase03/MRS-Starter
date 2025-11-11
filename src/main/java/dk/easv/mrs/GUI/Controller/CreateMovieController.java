@@ -1,9 +1,15 @@
 package dk.easv.mrs.GUI.Controller;
 
+// Java imports
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.scene.control.TextFormatter;
+
+// Project imports
 import dk.easv.mrs.GUI.Model.MovieModel;
 
 public class CreateMovieController {
@@ -15,9 +21,16 @@ public class CreateMovieController {
     private TextField txtMovieYear;
 
     private MovieModel movieModel;
+    private boolean movieCreated = false;
+
+    ChangeListener<String> forceNumberListener = (observable, oldValue, newValue) -> {
+        if (!newValue.matches("\\d*"))
+            ((StringProperty) observable).set(oldValue);
+    };
 
     public void setMovieModel(MovieModel movieModel) {
         this.movieModel = movieModel;
+        txtMovieYear.textProperty().addListener(forceNumberListener);
     }
 
     @FXML
@@ -40,6 +53,7 @@ public class CreateMovieController {
 
         try {
             movieModel.createMovie(title, year);
+            movieCreated = true; // <-- mark success
             closeWindow();
         } catch (Exception e) {
             showAlert("Failed to create movie: " + e.getMessage());
@@ -61,5 +75,9 @@ public class CreateMovieController {
     private void closeWindow() {
         Stage stage = (Stage) txtMovieTitle.getScene().getWindow();
         stage.close();
+    }
+
+    public boolean isMovieCreated() {
+        return movieCreated;
     }
 }
