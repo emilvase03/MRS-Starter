@@ -1,44 +1,32 @@
 package dk.easv.mrs.GUI.Controller;
 
-import dk.easv.mrs.BE.Movie;
-import dk.easv.mrs.GUI.Model.MovieModel;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import dk.easv.mrs.GUI.Model.MovieModel;
 
 public class CreateMovieController {
-    private MovieModel movieModel;
 
     @FXML
     private TextField txtMovieTitle;
+
     @FXML
     private TextField txtMovieYear;
 
-    public CreateMovieController()  {
-        try {
-            movieModel = new MovieModel();
-        } catch (Exception e) {
-            displayError(e);
-            e.printStackTrace();
-        }
-    }
+    private MovieModel movieModel;
 
-    private void displayError(Throwable t)
-    {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Something went wrong");
-        alert.setHeaderText(t.getMessage());
-        alert.showAndWait();
+    public void setMovieModel(MovieModel movieModel) {
+        this.movieModel = movieModel;
     }
 
     @FXML
-    private void onBtnAddMovieAction(ActionEvent actionEvent) {
-        String title = txtMovieTitle.getText();
-        String yearText = txtMovieYear.getText();
+    private void onBtnAddMovieAction() {
+        String title = txtMovieTitle.getText().trim();
+        String yearText = txtMovieYear.getText().trim();
 
         if (title.isEmpty() || yearText.isEmpty()) {
-            displayError(new Exception("Title and Year must not be empty."));
+            showAlert("Please enter both title and year.");
             return;
         }
 
@@ -46,19 +34,32 @@ public class CreateMovieController {
         try {
             year = Integer.parseInt(yearText);
         } catch (NumberFormatException e) {
-            displayError(new Exception("Year must be a valid integer."));
+            showAlert("Year must be a number.");
             return;
         }
 
         try {
             movieModel.createMovie(title, year);
-            movieModel.getObservableMovies().clear();
-            movieModel.getObservableMovies().addAll(movieModel.movieManager.getAllMovies());
-            txtMovieTitle.clear();
-            txtMovieYear.clear();
+            closeWindow();
         } catch (Exception e) {
-            displayError(e);
-            e.printStackTrace();
+            showAlert("Failed to create movie: " + e.getMessage());
         }
+    }
+
+    @FXML
+    private void onBtnCancelAction() {
+        closeWindow();
+    }
+
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Validation Error");
+        alert.setHeaderText(message);
+        alert.showAndWait();
+    }
+
+    private void closeWindow() {
+        Stage stage = (Stage) txtMovieTitle.getScene().getWindow();
+        stage.close();
     }
 }
