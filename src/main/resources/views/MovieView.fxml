@@ -12,6 +12,6 @@
       <TextField fx:id="txtMovieSearch" layoutX="10.0" layoutY="14.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
       <Label fx:id="lblResults" layoutX="180.0" layoutY="15.0" />
       <Button layoutX="10.0" layoutY="417.0" mnemonicParsing="false" onAction="#onBtnCreateMovieAction" text="Add new movie" />
-      <Button fx:id="btnEditMovie" layoutX="118.0" layoutY="417.0" mnemonicParsing="false" text="Edit Movie" />
+      <Button fx:id="btnDeleteMovie" layoutX="118.0" layoutY="417.0" mnemonicParsing="false" onAction="#onBtnDeleteMovieAction" text="Delete movie" opacity="0" />
    </children>
 </AnchorPane>

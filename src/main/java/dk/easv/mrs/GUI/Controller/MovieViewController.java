@@ -8,10 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
@@ -35,6 +32,8 @@ public class MovieViewController implements Initializable {
     private TextField txtMovieTitle;
     @FXML
     private TextField txtMovieYear;
+    @FXML
+    private Button btnDeleteMovie;
 
     public MovieViewController()  {
 
@@ -64,6 +63,14 @@ public class MovieViewController implements Initializable {
                 e.printStackTrace();
             }
         });
+
+        lstMovies.getSelectionModel().selectedItemProperty().addListener((obs, oldMovie, newMovie) -> {
+            if (newMovie != null) {
+                btnDeleteMovie.setOpacity(1);
+            } else {
+                btnDeleteMovie.setOpacity(0);
+            }
+        });
     }
 
     private void displayError(Throwable t)
@@ -77,19 +84,58 @@ public class MovieViewController implements Initializable {
     @FXML
     private void onBtnCreateMovieAction(ActionEvent actionEvent) {
         try {
-            // Load the FXML for the popup window
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/CreateMovieView.fxml"));
             Parent root = loader.load();
 
-            // Create a new Stage (popup window)
+            CreateMovieController controller = loader.getController();
+
+            controller.setMovieModel(movieModel);
+
             Stage stage = new Stage();
             stage.setTitle("Create Movie");
             stage.setScene(new Scene(root));
-            stage.initModality(Modality.APPLICATION_MODAL); // blocks parent window until closed
+            stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
-            stage.showAndWait(); // Waits for the popup to close before continuing
+
+            stage.showAndWait();
+
+            lstMovies.setItems(movieModel.getObservableMovies());
+
+            // auto-select movie on add.
+            int newIndex = movieModel.getObservableMovies().size() - 1;
+            if (newIndex >= 0) {
+                lstMovies.getSelectionModel().select(newIndex); // select the last item
+                lstMovies.scrollTo(newIndex); // scroll to make it visible
+            }
+
         } catch (IOException e) {
+            displayError(e);
             e.printStackTrace();
         }
+    }
+
+
+    @FXML
+    private void onBtnDeleteMovieAction(ActionEvent actionEvent) {
+        Movie selectedMovie = lstMovies.getSelectionModel().getSelectedItem();
+        if (selectedMovie == null) return;
+
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        confirm.setTitle("Delete Movie");
+        confirm.setHeaderText("Are you sure you want to delete \"" + selectedMovie.getTitle() + "\"?");
+        confirm.setContentText("This action cannot be undone.");
+
+        confirm.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                try {
+                    movieModel.deleteMovie(selectedMovie); // assumes your model supports delete
+                    movieModel.getObservableMovies().remove(selectedMovie);
+                    btnDeleteMovie.setOpacity(0); // hide again
+                } catch (Exception e) {
+                    displayError(e);
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }

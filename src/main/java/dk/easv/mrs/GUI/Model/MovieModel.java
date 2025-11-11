@@ -33,9 +33,20 @@ public class MovieModel {
 
     public Movie createMovie(String title, int year) throws Exception {
         try {
-            return movieManager.createMovie(title, year);
+            Movie newMovie = movieManager.createMovie(title, year);
+            moviesToBeViewed.add(newMovie);
+            return newMovie;
         } catch (Exception e) {
             throw new Exception("Failed to create movie: " + e.getMessage());
+        }
+    }
+
+    public void deleteMovie(Movie movie) throws Exception {
+        try {
+            movieManager.deleteMovie(movie);
+            moviesToBeViewed.remove(movie);
+        } catch (Exception e) {
+            throw new Exception("Failed to delete movie: " + e.getMessage());
         }
     }
 }
