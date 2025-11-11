@@ -88,7 +88,6 @@ public class MovieViewController implements Initializable {
             Parent root = loader.load();
 
             CreateMovieController controller = loader.getController();
-
             controller.setMovieModel(movieModel);
 
             Stage stage = new Stage();
@@ -102,10 +101,12 @@ public class MovieViewController implements Initializable {
             lstMovies.setItems(movieModel.getObservableMovies());
 
             // auto-select movie on add.
-            int newIndex = movieModel.getObservableMovies().size() - 1;
-            if (newIndex >= 0) {
-                lstMovies.getSelectionModel().select(newIndex); // select the last item
-                lstMovies.scrollTo(newIndex); // scroll to make it visible
+            if (controller.isMovieCreated()) {
+                int newIndex = movieModel.getObservableMovies().size() - 1;
+                if (newIndex >= 0) {
+                    lstMovies.getSelectionModel().select(newIndex); // select the last item
+                    lstMovies.scrollTo(newIndex); // scroll to make it visible
+                }
             }
 
         } catch (IOException e) {
