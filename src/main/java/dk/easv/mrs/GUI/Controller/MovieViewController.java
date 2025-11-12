@@ -33,10 +33,11 @@ public class MovieViewController implements Initializable {
     @FXML
     private TextField txtMovieYear;
     @FXML
-    private Button btnDeleteMovie;
+    private MenuItem btnDeleteMovie;
+    @FXML
+    private MenuButton btnMenuOptions;
 
     public MovieViewController()  {
-
         try {
             movieModel = new MovieModel();
         } catch (Exception e) {
@@ -66,9 +67,9 @@ public class MovieViewController implements Initializable {
 
         lstMovies.getSelectionModel().selectedItemProperty().addListener((obs, oldMovie, newMovie) -> {
             if (newMovie != null) {
-                btnDeleteMovie.setOpacity(1);
+                btnMenuOptions.setOpacity(1);
             } else {
-                btnDeleteMovie.setOpacity(0);
+                btnMenuOptions.setOpacity(0);
             }
         });
     }
@@ -104,8 +105,8 @@ public class MovieViewController implements Initializable {
             if (controller.isMovieCreated()) {
                 int newIndex = movieModel.getObservableMovies().size() - 1;
                 if (newIndex >= 0) {
-                    lstMovies.getSelectionModel().select(newIndex); // select the last item
-                    lstMovies.scrollTo(newIndex); // scroll to make it visible
+                    lstMovies.getSelectionModel().select(newIndex);
+                    lstMovies.scrollTo(newIndex);
                 }
             }
 
@@ -129,14 +130,44 @@ public class MovieViewController implements Initializable {
         confirm.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
                 try {
-                    movieModel.deleteMovie(selectedMovie); // assumes your model supports delete
+                    movieModel.deleteMovie(selectedMovie);
                     movieModel.getObservableMovies().remove(selectedMovie);
-                    btnDeleteMovie.setOpacity(0); // hide again
+                    btnMenuOptions.setOpacity(0); // hide again
+                    lstMovies.refresh();
                 } catch (Exception e) {
                     displayError(e);
                     e.printStackTrace();
                 }
             }
         });
+    }
+
+    @FXML
+    private void onBtnEditMovieAction(ActionEvent actionEvent) {
+        Movie selectedMovie = lstMovies.getSelectionModel().getSelectedItem();
+        if (selectedMovie == null) return;
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/EditMovieView.fxml"));
+            Parent root = loader.load();
+
+            EditMovieController controller = loader.getController();
+            controller.setMovieModel(movieModel);
+            controller.setMovieToEdit(selectedMovie);
+
+            Stage stage = new Stage();
+            stage.setTitle("Edit Movie");
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+
+            stage.showAndWait();
+
+            lstMovies.refresh();
+
+        } catch (IOException e) {
+            displayError(e);
+            e.printStackTrace();
+        }
     }
 }

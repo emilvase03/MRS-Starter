@@ -41,6 +41,14 @@ public class MovieModel {
         }
     }
 
+    public void updateMovie(Movie movie) throws Exception {
+        try {
+            movieManager.updateMovie(movie);
+        } catch (Exception e) {
+            throw new Exception("Failed to update movie: " + e.getMessage());
+        }
+    }
+
     public void deleteMovie(Movie movie) throws Exception {
         try {
             movieManager.deleteMovie(movie);
