@@ -48,9 +48,7 @@ public class MovieDAO_File implements IMovieDataAccess {
 
     @Override
     public Movie createMovie(Movie newMovie) throws Exception {
-
         List<String> movies = Files.readAllLines(filePath);
-
         if (!movies.isEmpty()) {
             // get next id
             String[] separatedLine = movies.get(movies.size() - 1).split(",");
@@ -65,15 +63,12 @@ public class MovieDAO_File implements IMovieDataAccess {
 
     @Override
     public void updateMovie(Movie movie) throws Exception {
-
         try
         {
             List<String> movies = Files.readAllLines(filePath);
-
             for (int i = 0; i < movies.size(); i++)
             {
                 String[] separatedLine = movies.get(i).split(",");
-
                 if(separatedLine.length == 3) {
                     int id = Integer.parseInt(separatedLine[0]);
                     if (id == movie.getId()) {
@@ -85,13 +80,10 @@ public class MovieDAO_File implements IMovieDataAccess {
             }
             Path tempPathFile = Paths.get(MOVIES_FILE+ "_TEMP");
             Files.createFile(tempPathFile);
-
             for (String line: movies)
                 Files.write(tempPathFile, (line + "\r\n").getBytes(),APPEND);
-
             Files.copy(tempPathFile, filePath, REPLACE_EXISTING);
             Files.deleteIfExists(tempPathFile);
-
         } catch (IOException e) {
             e.printStackTrace();
             throw new Exception("An error occurred");
