@@ -1,13 +1,13 @@
 package dk.easv.mrs.GUI.Controller;
 
 // Java imports
+import dk.easv.mrs.BE.Movie;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.scene.control.TextFormatter;
 
 // Project imports
 import dk.easv.mrs.GUI.Model.MovieModel;
@@ -52,8 +52,9 @@ public class CreateMovieController {
         }
 
         try {
-            movieModel.createMovie(title, year);
-            movieCreated = true; // <-- mark success
+            Movie newMovie = new Movie(-1, year, title);
+            movieModel.createMovie(newMovie);
+            movieCreated = true;
             closeWindow();
         } catch (Exception e) {
             showAlert("Failed to create movie: " + e.getMessage());

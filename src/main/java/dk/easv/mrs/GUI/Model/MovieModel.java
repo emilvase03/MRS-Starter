@@ -31,30 +31,18 @@ public class MovieModel {
         moviesToBeViewed.addAll(searchResults);
     }
 
-    public Movie createMovie(String title, int year) throws Exception {
-        try {
-            Movie newMovie = movieManager.createMovie(title, year);
-            moviesToBeViewed.add(newMovie);
-            return newMovie;
-        } catch (Exception e) {
-            throw new Exception("Failed to create movie: " + e.getMessage());
-        }
+    public Movie createMovie(Movie movie) throws Exception {
+        Movie movieCreated = movieManager.createMovie(movie);
+        moviesToBeViewed.add(movieCreated);
+        return movieCreated;
     }
 
     public void updateMovie(Movie movie) throws Exception {
-        try {
-            movieManager.updateMovie(movie);
-        } catch (Exception e) {
-            throw new Exception("Failed to update movie: " + e.getMessage());
-        }
+        movieManager.updateMovie(movie);
     }
 
     public void deleteMovie(Movie movie) throws Exception {
-        try {
-            movieManager.deleteMovie(movie);
-            moviesToBeViewed.remove(movie);
-        } catch (Exception e) {
-            throw new Exception("Failed to delete movie: " + e.getMessage());
-        }
+        movieManager.deleteMovie(movie);
+        moviesToBeViewed.remove(movie);
     }
 }
