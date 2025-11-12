@@ -48,14 +48,12 @@ public class MovieDAO_File implements IMovieDataAccess {
 
         movies.add(newMovie);
         allMovies = movies;
-
         return newMovie;
     }
 
     @Override
     public void updateMovie(Movie movie) throws Exception {
         List<Movie> movies = getAllMovies();
-
         for (int i = 0; i < movies.size(); i++) {
             if (movies.get(i).getId() == movie.getId()) {
                 movies.set(i, movie);
@@ -69,6 +67,8 @@ public class MovieDAO_File implements IMovieDataAccess {
                 bw.newLine();
             }
         }
+
+        allMovies = movies;
     }
 
     @Override
