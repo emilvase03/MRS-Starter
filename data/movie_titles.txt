@@ -1,8 +1,7 @@
-3,1997,Character
 5,2004,The Rise and Fall of ECW
 8,2004,What the #$*! Do We Know!?
 9,1991,Class of Nuke 'Em High 2
-10,2001,Fighter
+10,2002,Fighter
 11,1999,Full Frame: Documentary Shorts
 12,1947,My Favorite Brunette
 15,1988,Neil Diamond: Greatest Hits Live

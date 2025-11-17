@@ -29,12 +29,6 @@ public class MovieViewController implements Initializable {
     @FXML
     private Label lblResults;
     @FXML
-    private TextField txtMovieTitle;
-    @FXML
-    private TextField txtMovieYear;
-    @FXML
-    private MenuItem btnDeleteMovie;
-    @FXML
     private MenuButton btnMenuOptions;
 
     public MovieViewController()  {
@@ -145,7 +139,8 @@ public class MovieViewController implements Initializable {
     @FXML
     private void onBtnEditMovieAction(ActionEvent actionEvent) {
         Movie selectedMovie = lstMovies.getSelectionModel().getSelectedItem();
-        if (selectedMovie == null) return;
+        if (selectedMovie == null)
+            return;
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/EditMovieView.fxml"));

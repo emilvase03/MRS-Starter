@@ -1,4 +1,4 @@
-package dk.easv.mrs.DAL;
+/*package dk.easv.mrs.DAL;
 
 // Java imports
 import java.io.*;
@@ -13,7 +13,6 @@ import dk.easv.mrs.BE.Movie;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static java.nio.file.StandardOpenOption.APPEND;
-
 
 public class MovieDAO_File implements IMovieDataAccess {
     private static final String MOVIES_FILE = "data/movie_titles.txt";
@@ -109,4 +108,4 @@ public class MovieDAO_File implements IMovieDataAccess {
             throw new Exception("An error occurred");
         }
     }
-}
+}*/

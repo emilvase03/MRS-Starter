@@ -16,7 +16,7 @@
       <Button layoutX="10.0" layoutY="417.0" mnemonicParsing="false" onAction="#onBtnCreateMovieAction" text="Add new movie" />
       <MenuButton fx:id="btnMenuOptions" layoutX="118.0" layoutY="417.0" mnemonicParsing="false" opacity="0.0" text="Options">
         <items>
-          <MenuItem fx:id="btnDeleteMovie" mnemonicParsing="false" onAction="#onBtnDeleteMovieAction" text="Delete movie" />
+          <MenuItem mnemonicParsing="false" onAction="#onBtnDeleteMovieAction" text="Delete movie" />
           <MenuItem mnemonicParsing="false" onAction="#onBtnEditMovieAction" text="Edit movie" />
         </items>
       </MenuButton>

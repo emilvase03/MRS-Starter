@@ -4,7 +4,6 @@ package dk.easv.mrs.GUI.Controller;
 import dk.easv.mrs.BE.Movie;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
@@ -23,7 +22,6 @@ public class EditMovieController {
 
     private MovieModel movieModel;
     private Movie movieToEdit;
-    private boolean movieCreated = false;
 
     ChangeListener<String> forceNumberListener = (observable, oldValue, newValue) -> {
         if (!newValue.matches("\\d*"))
@@ -57,7 +55,6 @@ public class EditMovieController {
             movieToEdit.setTitle(title);
             movieToEdit.setYear(year);
             movieModel.updateMovie(movieToEdit);
-            movieCreated = true;
             closeWindow();
         } catch (Exception e) {
             showAlert("Failed to update movie: " + e.getMessage());
@@ -79,10 +76,6 @@ public class EditMovieController {
     private void closeWindow() {
         Stage stage = (Stage) txtMovieTitle.getScene().getWindow();
         stage.close();
-    }
-
-    public boolean isMovieCreated() {
-        return movieCreated;
     }
 
     public void setMovieToEdit(Movie selectedMovie) {
