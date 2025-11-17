@@ -4,12 +4,9 @@ import dk.easv.mrs.BE.Movie;
 import dk.easv.mrs.DAL.IMovieDataAccess;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.nio.file.StandardOpenOption.APPEND;
 
 public class MovieDAO_DB implements IMovieDataAccess {
 
@@ -101,5 +98,4 @@ public class MovieDAO_DB implements IMovieDataAccess {
 
         System.out.println(allMovies);
     }
-
 }

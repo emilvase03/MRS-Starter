@@ -6,19 +6,34 @@
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane prefHeight="451.0" prefWidth="422.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.mrs.GUI.Controller.MovieViewController">
-   <children>
-      <ListView fx:id="lstMovies" layoutX="10.0" layoutY="41.0" prefHeight="370.0" prefWidth="320.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="41.0" />
-      <TextField fx:id="txtMovieSearch" layoutX="10.0" layoutY="14.0" promptText="Search movies..." AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
-      <Label fx:id="lblResults" layoutX="180.0" layoutY="15.0" />
-      <Button layoutX="10.0" layoutY="417.0" mnemonicParsing="false" onAction="#onBtnCreateMovieAction" text="Add new movie" />
-      <MenuButton fx:id="btnMenuOptions" layoutX="118.0" layoutY="417.0" mnemonicParsing="false" opacity="0.0" text="Options">
-        <items>
-          <MenuItem mnemonicParsing="false" onAction="#onBtnDeleteMovieAction" text="Delete movie" />
-          <MenuItem mnemonicParsing="false" onAction="#onBtnEditMovieAction" text="Edit movie" />
-        </items>
-      </MenuButton>
-   </children>
+    <children>
+        <ListView fx:id="lstMovies" layoutX="10.0" layoutY="41.0" prefHeight="370.0" prefWidth="320.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="41.0" />
+        <TextField fx:id="txtMovieSearch" layoutX="51.0" layoutY="12.0" promptText="Search movies..." AnchorPane.leftAnchor="51.0" AnchorPane.topAnchor="12.0" />
+        <Label fx:id="lblResults" layoutX="221.0" layoutY="17.0" />
+        <Button layoutX="10.0" layoutY="417.0" mnemonicParsing="false" onAction="#onBtnCreateMovieAction" text="Add new movie" />
+
+        <MenuButton fx:id="btnMenuOptions" layoutX="118.0" layoutY="417.0" mnemonicParsing="false" opacity="0.0" text="Options">
+            <items>
+                <MenuItem fx:id="btnDeleteMovie" mnemonicParsing="false" onAction="#onBtnDeleteMovieAction" text="Delete movie" />
+                <MenuItem mnemonicParsing="false" onAction="#onBtnEditMovieAction" text="Edit movie" />
+            </items>
+        </MenuButton>
+
+        <!-- Refresh Button With Icon -->
+        <Button layoutX="10.0" layoutY="12.0" mnemonicParsing="false" onAction="#onBtnRefreshAction">
+            <graphic>
+                <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
+                    <image>
+                        <Image url="@../icons/refresh.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+
+    </children>
 </AnchorPane>

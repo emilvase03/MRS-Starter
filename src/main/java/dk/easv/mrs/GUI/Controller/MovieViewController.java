@@ -1,7 +1,9 @@
 package dk.easv.mrs.GUI.Controller;
 
 // Java imports
+import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +15,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 // Project imports
@@ -161,6 +164,18 @@ public class MovieViewController implements Initializable {
             lstMovies.refresh();
 
         } catch (IOException e) {
+            displayError(e);
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void onBtnRefreshAction(ActionEvent actionEvent) {
+        try {
+            txtMovieSearch.clear();
+            movieModel.reloadAllMovies();
+            lstMovies.refresh();
+        } catch (Exception e) {
             displayError(e);
             e.printStackTrace();
         }
