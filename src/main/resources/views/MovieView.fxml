@@ -2,20 +2,20 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="451.0" prefWidth="422.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.mrs.GUI.Controller.MovieViewController">
+<AnchorPane prefHeight="450.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.mrs.GUI.Controller.MovieViewController">
     <children>
-        <ListView fx:id="lstMovies" layoutX="10.0" layoutY="41.0" prefHeight="370.0" prefWidth="320.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="41.0" />
-        <TextField fx:id="txtMovieSearch" layoutX="51.0" layoutY="12.0" promptText="Search movies..." AnchorPane.leftAnchor="51.0" AnchorPane.topAnchor="12.0" />
-        <Label fx:id="lblResults" layoutX="221.0" layoutY="17.0" />
-        <Button layoutX="10.0" layoutY="417.0" mnemonicParsing="false" onAction="#onBtnCreateMovieAction" text="Add new movie" />
+        <TextField fx:id="txtMovieSearch" layoutX="46.0" layoutY="13.0" promptText="Search movies..." AnchorPane.leftAnchor="46.0" AnchorPane.topAnchor="13.0" />
+        <Label fx:id="lblResults" layoutX="215.0" layoutY="17.0" prefHeight="17.0" prefWidth="0.0" />
+        <Button layoutX="7.0" layoutY="417.0" mnemonicParsing="false" onAction="#onBtnCreateMovieAction" text="Add new movie" />
 
         <MenuButton fx:id="btnMenuOptions" layoutX="118.0" layoutY="417.0" mnemonicParsing="false" opacity="0.0" text="Options">
             <items>
@@ -25,7 +25,7 @@
         </MenuButton>
 
         <!-- Refresh Button With Icon -->
-        <Button layoutX="10.0" layoutY="12.0" mnemonicParsing="false" onAction="#onBtnRefreshAction">
+        <Button layoutX="7.0" layoutY="12.0" mnemonicParsing="false" onAction="#onBtnRefreshAction">
             <graphic>
                 <ImageView fitHeight="16.0" fitWidth="16.0" preserveRatio="true">
                     <image>
@@ -34,6 +34,16 @@
                 </ImageView>
             </graphic>
         </Button>
+      <TableView fx:id="tblMovies" layoutX="7.0" layoutY="41.0" prefHeight="373.0" prefWidth="485.0">
+        <columns>
+          <TableColumn fx:id="colId" minWidth="100.0" prefWidth="110.0" resizable="false" text="ID" />
+          <TableColumn fx:id="colTitle" minWidth="200.0" prefWidth="250.0" resizable="false" text="Title" />
+            <TableColumn fx:id="colYear" prefWidth="135.0" resizable="false" text="Year" />
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
 
     </children>
 </AnchorPane>

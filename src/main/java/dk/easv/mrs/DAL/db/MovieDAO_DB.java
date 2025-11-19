@@ -3,13 +3,18 @@ package dk.easv.mrs.DAL.db;
 import dk.easv.mrs.BE.Movie;
 import dk.easv.mrs.DAL.IMovieDataAccess;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MovieDAO_DB implements IMovieDataAccess {
-
+    private static final String MOVIES_FILE = "data/movie_titles.txt";
+    private Path filePath = Paths.get(MOVIES_FILE);
     private DBConnector databaseConnector;
 
     public MovieDAO_DB() throws IOException {

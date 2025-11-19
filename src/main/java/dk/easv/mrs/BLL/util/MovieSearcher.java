@@ -8,8 +8,6 @@ import java.util.List;
 import dk.easv.mrs.BE.Movie;
 
 public class MovieSearcher {
-
-
     public List<Movie> search(List<Movie> searchBase, String query) {
         List<Movie> searchResult = new ArrayList<>();
 

@@ -1,9 +1,7 @@
 package dk.easv.mrs.GUI.Controller;
 
 // Java imports
-import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,11 +9,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 // Project imports
@@ -26,8 +24,17 @@ public class MovieViewController implements Initializable {
 
 
     public TextField txtMovieSearch;
-    public ListView<Movie> lstMovies;
+    public TableView<Movie> tblMovies;
     private MovieModel movieModel;
+
+    @FXML
+    private TableColumn<Movie, String> colId;
+
+    @FXML
+    private TableColumn<Movie, String> colTitle;
+
+    @FXML
+    private TableColumn<Movie, Integer> colYear;
 
     @FXML
     private Label lblResults;
@@ -47,7 +54,12 @@ public class MovieViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-        lstMovies.setItems(movieModel.getObservableMovies());
+        // setup columns in tableview
+        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        colYear.setCellValueFactory(new PropertyValueFactory<>("year"));
+
+        tblMovies.setItems(movieModel.getObservableMovies());
 
         lblResults.textProperty().bind(
                 Bindings.concat("Total Movies: ", Bindings.size(movieModel.getObservableMovies()))
@@ -62,7 +74,7 @@ public class MovieViewController implements Initializable {
             }
         });
 
-        lstMovies.getSelectionModel().selectedItemProperty().addListener((obs, oldMovie, newMovie) -> {
+        tblMovies.getSelectionModel().selectedItemProperty().addListener((obs, oldMovie, newMovie) -> {
             if (newMovie != null) {
                 btnMenuOptions.setOpacity(1);
             } else {
@@ -96,14 +108,14 @@ public class MovieViewController implements Initializable {
 
             stage.showAndWait();
 
-            lstMovies.setItems(movieModel.getObservableMovies());
+            tblMovies.setItems(movieModel.getObservableMovies());
 
             // auto-select movie on add.
             if (controller.isMovieCreated()) {
                 int newIndex = movieModel.getObservableMovies().size() - 1;
                 if (newIndex >= 0) {
-                    lstMovies.getSelectionModel().select(newIndex);
-                    lstMovies.scrollTo(newIndex);
+                    tblMovies.getSelectionModel().select(newIndex);
+                    tblMovies.scrollTo(newIndex);
                 }
             }
 
@@ -116,7 +128,7 @@ public class MovieViewController implements Initializable {
 
     @FXML
     private void onBtnDeleteMovieAction(ActionEvent actionEvent) {
-        Movie selectedMovie = lstMovies.getSelectionModel().getSelectedItem();
+        Movie selectedMovie = tblMovies.getSelectionModel().getSelectedItem();
         if (selectedMovie == null) return;
 
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
@@ -130,7 +142,7 @@ public class MovieViewController implements Initializable {
                     movieModel.deleteMovie(selectedMovie);
                     movieModel.getObservableMovies().remove(selectedMovie);
                     btnMenuOptions.setOpacity(0); // hide again
-                    lstMovies.refresh();
+                    tblMovies.refresh();
                 } catch (Exception e) {
                     displayError(e);
                     e.printStackTrace();
@@ -141,7 +153,7 @@ public class MovieViewController implements Initializable {
 
     @FXML
     private void onBtnEditMovieAction(ActionEvent actionEvent) {
-        Movie selectedMovie = lstMovies.getSelectionModel().getSelectedItem();
+        Movie selectedMovie = tblMovies.getSelectionModel().getSelectedItem();
         if (selectedMovie == null)
             return;
 
@@ -161,7 +173,7 @@ public class MovieViewController implements Initializable {
 
             stage.showAndWait();
 
-            lstMovies.refresh();
+            tblMovies.refresh();
 
         } catch (IOException e) {
             displayError(e);
@@ -174,7 +186,7 @@ public class MovieViewController implements Initializable {
         try {
             txtMovieSearch.clear();
             movieModel.reloadAllMovies();
-            lstMovies.refresh();
+            tblMovies.refresh();
         } catch (Exception e) {
             displayError(e);
             e.printStackTrace();
