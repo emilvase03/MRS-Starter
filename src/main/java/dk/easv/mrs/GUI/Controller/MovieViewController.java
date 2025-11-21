@@ -2,6 +2,7 @@ package dk.easv.mrs.GUI.Controller;
 
 // Java imports
 import javafx.beans.binding.Bindings;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -66,12 +67,18 @@ public class MovieViewController implements Initializable {
         );
 
         txtMovieSearch.textProperty().addListener((observableValue, oldValue, newValue) -> {
-            try {
-                movieModel.searchMovie(newValue);
-            } catch (Exception e) {
-                displayError(e);
-                e.printStackTrace();
-            }
+            movieModel.getObservableMovies().setPredicate(movie -> {
+                // If filter text is empty, display all movies.
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (movie.getTitle().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else return Integer.toString(movie.getYear()).contains(lowerCaseFilter);
+            });
         });
 
         tblMovies.getSelectionModel().selectedItemProperty().addListener((obs, oldMovie, newMovie) -> {
@@ -81,6 +88,10 @@ public class MovieViewController implements Initializable {
                 btnMenuOptions.setOpacity(0);
             }
         });
+
+        SortedList<Movie> sortedData = new SortedList<>(movieModel.getObservableMovies());
+        sortedData.comparatorProperty().bind(tblMovies.comparatorProperty());
+        tblMovies.setItems(sortedData);
     }
 
     private void displayError(Throwable t)

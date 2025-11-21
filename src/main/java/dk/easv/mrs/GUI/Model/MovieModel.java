@@ -1,51 +1,42 @@
 package dk.easv.mrs.GUI.Model;
-
-// Java imports
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import java.util.List;
-
-// Project imports
 import dk.easv.mrs.BE.Movie;
 import dk.easv.mrs.BLL.MovieManager;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 
 public class MovieModel {
 
-    private final ObservableList<Movie> moviesToBeViewed;
-
-    public final MovieManager movieManager;
+    private FilteredList<Movie> filteredList;
+    private ObservableList<Movie> moviesToBeViewed;
+    private MovieManager movieManager;
 
     public MovieModel() throws Exception {
         movieManager = new MovieManager();
         moviesToBeViewed = FXCollections.observableArrayList();
         moviesToBeViewed.addAll(movieManager.getAllMovies());
+        filteredList = new FilteredList<>(moviesToBeViewed);
     }
 
-    public ObservableList<Movie> getObservableMovies() {
-        return moviesToBeViewed;
+    public FilteredList<Movie> getObservableMovies() {
+        return filteredList;
     }
 
-    public void searchMovie(String query) throws Exception {
-        List<Movie> searchResults = movieManager.searchMovies(query);
-        moviesToBeViewed.clear();
-        moviesToBeViewed.addAll(searchResults);
-    }
-
-    public Movie createMovie(Movie movie) throws Exception {
-        Movie movieCreated = movieManager.createMovie(movie);
+    public Movie createMovie(Movie newMovie) throws Exception {
+        Movie movieCreated = movieManager.createMovie(newMovie);
         moviesToBeViewed.add(movieCreated);
         return movieCreated;
     }
 
-    public void updateMovie(Movie movie) throws Exception {
-        movieManager.updateMovie(movie);
+    public void updateMovie(Movie updatedMovie) throws Exception {
+        movieManager.updateMovie(updatedMovie);
     }
 
-    public void deleteMovie(Movie movie) throws Exception {
-        movieManager.deleteMovie(movie);
-        moviesToBeViewed.remove(movie);
+    public void deleteMovie(Movie selectedMovie) throws Exception {
+        movieManager.deleteMovie(selectedMovie);
+        moviesToBeViewed.remove(selectedMovie);
     }
-
+    
     public void reloadAllMovies() throws Exception {
         moviesToBeViewed.clear();
         moviesToBeViewed.addAll(movieManager.getAllMovies());
